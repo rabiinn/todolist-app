@@ -55,7 +55,31 @@ todoRouter.post('/', async (req, res, next) => {
     catch(error){
         next(error);
     }
+})
 
+todoRouter.put('/:id', async (req, res, next) => {
+    const id = req.params.id;
+    const body = req.body;
+    try{
+        if(!body){
+            return res.status(400).json({error: "body required"});
+        }
+        const todotobeUpdated = await todo.findById(id);
+        if(!todotobeUpdated){
+            return res.status(404).json({error: "todo not found"});
+        }
+        
+        todotobeUpdated.title = body.title;
+        todotobeUpdated.description = body.description;
+        todotobeUpdated.status = body.status;
+        todotobeUpdated.dueDate = body.dueDate;
+        
+        const updatedtodo = todotobeUpdated.save();
+        res.status(204).json(updatedtodo);
+    }
+    catch(error){
+        next(error);
+    }
 })
 
 
