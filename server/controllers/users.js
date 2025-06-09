@@ -1,12 +1,12 @@
 import { Router } from "express";
-import user from "../models/user";
+import user from "../models/user.js";
 import config from "../utils/config.js";
 import bcrypt from "bcrypt";
 const userRouter = Router();
 
 
  userRouter.get('/', async (req, res, next) => {
-    const users = await user.find({});
+    const users = await user.find({}).populate('todos');
     res.status(200).json(users);
  })
 
@@ -36,10 +36,13 @@ userRouter.post('/', async (req, res, next) => {
             name: name,
         });
         const returneduser = await newUser.save();
-        res.status(201).json(returneduser);
+        const {passwordHash, ...userWithoutPassword} = returneduser;
+        res.status(201).json(userWithoutPassword);
 
     }
     catch(error){
         next(error);
     }
 })
+
+export default userRouter;

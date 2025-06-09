@@ -1,11 +1,12 @@
 import logger from "../utils/logger.js";
 import { Router } from "express";
 import todo from "../models/todo.js";
+import user from "../models/user.js";
 const todoRouter = Router();
 
 todoRouter.get('/', async (req, res, next) => {
     try{
-        const todos = await todo.find({});
+        const todos = await todo.find({}).populate('user');
         res.status(200).json(todos);
     }
     catch(error){
@@ -38,17 +39,28 @@ todoRouter.post('/', async (req, res, next) => {
 
     try{
         if(!body.title){
-            return res.send(400).json({error: "title required"});
+            return res.status(400).json({error: "title required"});
         }
+        const userid = body.userid;
+        const useroftheTodo = await user.findById(userid);
+
+        if (!useroftheTodo) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
         const newToDo = new todo({
             title: body.title,
             description: body.description,
             status: 'open',
             createdat: new Date(),
             dueDate: body.dueDate,
+            user: userid
         })
 
         const returnedTodo = await newToDo.save();
+        useroftheTodo.todos.push(returnedTodo._id);
+        await useroftheTodo.save()
+
         res.status(201).json(returnedTodo);
 
     }
@@ -74,8 +86,8 @@ todoRouter.put('/:id', async (req, res, next) => {
         todotobeUpdated.status = body.status;
         todotobeUpdated.dueDate = body.dueDate;
 
-        const updatedtodo = todotobeUpdated.save();
-        res.status(204).json(updatedtodo);
+        const updatedtodo = await todotobeUpdated.save();
+        res.status(200).json(updatedtodo);
     }
     catch(error){
         next(error);
@@ -85,7 +97,7 @@ todoRouter.put('/:id', async (req, res, next) => {
 todoRouter.delete('/id', async (req, res, next) => {
     const id = req.params.id;
     try{
-        await todo.findByIdAnddelete(id);
+        await todo.findByIdAndDelete(id);
         res.status(204).end();
     }
     catch(error){
