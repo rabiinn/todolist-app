@@ -73,7 +73,7 @@ todoRouter.put('/:id', async (req, res, next) => {
         todotobeUpdated.description = body.description;
         todotobeUpdated.status = body.status;
         todotobeUpdated.dueDate = body.dueDate;
-        
+
         const updatedtodo = todotobeUpdated.save();
         res.status(204).json(updatedtodo);
     }
@@ -81,6 +81,19 @@ todoRouter.put('/:id', async (req, res, next) => {
         next(error);
     }
 })
+
+todoRouter.delete('/id', async (req, res, next) => {
+    const id = req.params.id;
+    try{
+        await todo.findByIdAnddelete(id);
+        res.status(204).end();
+    }
+    catch(error){
+        next(error);
+    }
+})
+
+
 
 
 
