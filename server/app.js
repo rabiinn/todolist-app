@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import middleware from "./utils/middleware.js";
 import userRouter from "./controllers/users.js";
 import loginRouter from "./controllers/login.js";
+import cors from 'cors';
 const app = express()
 
 try {
@@ -19,7 +20,7 @@ catch(error){
 
 app.use(json());
 app.use(middleware.requestLogger);
-
+app.use(cors());
 app.use('/api/todos',todoRouter);
 app.use('/api/users', userRouter);
 app.use('/api/login', loginRouter);
