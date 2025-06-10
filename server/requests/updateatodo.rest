@@ -1,9 +1,0 @@
-PUT http://localhost:8080/api/todos/68475b019f14c76a80de728e
-Content-Type: application/json
-
-{
-    "title": "Read a book (updated)",
-    "description": "Finish reading 'Atomic Habits' and take notes",
-    "status": "in progress",
-    "dueDate": "2024-07-10T18:00:00Z"
-}

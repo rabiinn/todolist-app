@@ -1,9 +1,0 @@
-POST http://localhost:8080/api/todos
-Content-Type: application/json
-
-{
-    "title": "Plan a weekend trip",
-    "description": "Research destinations and book accommodation for a short getaway",
-    "dueDate": "2024-07-15T20:00:00Z",
-    "userid": "68476c9c0bec32362223e659"
-}
