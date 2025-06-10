@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import Todo from "./components/Todo";
 
 const App = () => {
 
@@ -21,6 +21,11 @@ const App = () => {
   return (
     <div>
       Hello World
+      {
+        todolist.map(todo => {
+          return <Todo key={todo.id} todo={todo}/>
+        })
+      }
     </div>
   )
 }
