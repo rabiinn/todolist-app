@@ -16,9 +16,10 @@ const App = () => {
 
   return (
     <>
-    <div>My TODOLIST App</div>
-      <table border="1">
-        <thead>
+    <div className="container mt-5">
+      <h2 className="mb-4">Todo List</h2>
+      <table className="table table-striped table-bordered table-hover">
+        <thead className="table-dark">
           <tr>
             <th>Status</th>
             <th>Title</th>
@@ -34,6 +35,7 @@ const App = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </>
   )
 }
