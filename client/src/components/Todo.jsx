@@ -1,4 +1,4 @@
-const Todo = ({todo}) => {
+const Todo = ({todo, deleteAtodo}) => {
     
     return(
         <tr>
@@ -9,7 +9,7 @@ const Todo = ({todo}) => {
             <td>{todo.dueDate}</td>
             <td>
                 <button>Edit</button>
-                <button>Delete</button>
+                <button onClick={()=> deleteAtodo(todo.id)}>Delete</button>
             </td>
         </tr>
     )
