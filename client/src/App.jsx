@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Todo from "./components/Todo";
 import todoservice from './services/Todo-service.js';
 import loginService from "./services/login-service.js";
+import ToggleForm from "./components/ToggleForm.jsx";
 const App = () => {
 
   const [todolist, setTodolist] = useState([]);
@@ -99,16 +100,7 @@ const App = () => {
           </>
         )
       }
-
-      <form onSubmit={handleCreateAtodo}>
-        <div>
-          Title: <input onChange={handleTitleChange} value={newTitle} />
-        </div>
-        <div>
-          Description: <input onChange={handleDescriptionChange} value={newDescription} />
-        </div>
-        <button type="submit">Create a todo</button>
-      </form>
+      <ToggleForm handleCreateAtodo={handleCreateAtodo} handleTitleChange={handleTitleChange} handleDescriptionChange={handleDescriptionChange}/>
       <div className="container mt-5">
         <h2 className="mb-4">Todo List</h2>
         <table className="table table-striped table-bordered table-hover">
