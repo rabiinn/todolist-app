@@ -6,6 +6,7 @@ import config from "./utils/config.js";
 import mongoose from "mongoose";
 import middleware from "./utils/middleware.js";
 import userRouter from "./controllers/users.js";
+import loginRouter from "./controllers/login.js";
 const app = express()
 
 try {
@@ -21,6 +22,7 @@ app.use(middleware.requestLogger);
 
 app.use('/api/todos',todoRouter);
 app.use('/api/users', userRouter);
+app.use('/api/login', loginRouter);
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
