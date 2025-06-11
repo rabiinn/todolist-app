@@ -21,6 +21,15 @@ const App = () => {
     fetchTodos();
   },[]);
 
+  useEffect(() => {
+    const loggedUser = window.localStorage.getItem('loggedUser')
+    if(loggedUser){
+      const user = JSON.parse(loggedUser)
+      setUser(user)
+      todoservice.setToken(user.token)
+    }
+  },[])
+
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -77,20 +86,33 @@ const App = () => {
   }
 
   const deleteAtodo = async (id) => {
+  try{
     await todoservice.deleteTodo(id);
+    setTodolist(todolist.filter(todo => todo.id !== id))
+  }
+  catch(error){
+    console.log(error);
+  }
+
   }
 
 
   return (
     <>
-      {!user && <LoginForm handleLogin={handleLogin} handleLogout={handleLogout} setUsername={setUsername} setPassword={setPassword}/>
+      {!user && <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword}/>
         }
-      {user && (
+      {user && 
+      (
         <>
         <ModalForm handleCreateAtodo={handleCreateAtodo} handleTitleChange={handleTitleChange} handleDescriptionChange={handleDescriptionChange}/>
       <div className="container mt-5">
-        <h2 className="mb-4">Todo List</h2>
-        <table className="table table-striped table-bordered table-hover">
+        <div className="d-flex justify-content-end me-5">
+        <button onClick={handleLogout} className="btn btn-outline-danger">
+          Logout
+        </button>
+      </div>
+        <h2 className="mb-4 text-center">Todo List</h2>
+        <table className="table table-striped table-hover">
           <thead className="table-dark">
             <tr>
               <th>Status</th>
