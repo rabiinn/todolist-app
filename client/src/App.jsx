@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import Todo from "./components/Todo";
 import todoservice from './services/Todo-service.js';
 import loginService from "./services/login-service.js";
-import ToggleForm from "./components/ToggleForm.jsx";
+import LoginForm from "./components/LoginForm.jsx";
+import ModalForm from "./components/ModalForm.jsx";
 const App = () => {
 
   const [todolist, setTodolist] = useState([]);
@@ -82,25 +83,11 @@ const App = () => {
 
   return (
     <>
-      {
-        user ? (
-          <button onClick={handleLogout}>Logout</button>
-        ) : (
-          <>
-            <p>Login Form</p>
-            <form onSubmit={handleLogin}>
-              <div>
-                Username <input onChange={(e) => setUsername(e.target.value)} />
-              </div>
-              <div>
-                Password <input onChange={(e) => setPassword(e.target.value)} />
-              </div>
-              <button type="submit">Log in</button>
-            </form>
-          </>
-        )
-      }
-      <ToggleForm handleCreateAtodo={handleCreateAtodo} handleTitleChange={handleTitleChange} handleDescriptionChange={handleDescriptionChange}/>
+      {!user && <LoginForm handleLogin={handleLogin} handleLogout={handleLogout} setUsername={setUsername} setPassword={setPassword}/>
+        }
+      {user && (
+        <>
+        <ModalForm handleCreateAtodo={handleCreateAtodo} handleTitleChange={handleTitleChange} handleDescriptionChange={handleDescriptionChange}/>
       <div className="container mt-5">
         <h2 className="mb-4">Todo List</h2>
         <table className="table table-striped table-bordered table-hover">
@@ -121,6 +108,8 @@ const App = () => {
           </tbody>
         </table>
       </div>
+      </>
+      )}
     </>
   )
 }
