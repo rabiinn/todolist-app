@@ -1,17 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Todo from "./components/Todo";
 import todoservice from './services/Todo-service.js';
 import loginService from "./services/login-service.js";
 import LoginForm from "./components/LoginForm.jsx";
 import ModalForm from "./components/ModalForm.jsx";
+import TodoForm from "./components/TodoForm.jsx";
 const App = () => {
 
   const [todolist, setTodolist] = useState([]);
-  const [newTitle, setNewTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const  modalRef = useRef();
 
   useEffect(() => {
     const fetchTodos =  async ()  => {
@@ -97,7 +98,9 @@ const App = () => {
       {user && 
       (
         <>
-        <ModalForm createTodo={createTodo}/>
+        <ModalForm ref={modalRef}>
+          <TodoForm createTodo={createTodo} closeModal={() => modalRef.current?.closeModal()}/>
+          </ModalForm>
       <div className="container mt-5">
         <div className="d-flex justify-content-end me-5">
         <button onClick={handleLogout} className="btn btn-outline-danger">

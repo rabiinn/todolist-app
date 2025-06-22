@@ -1,26 +1,23 @@
-import React, {useRef, useEffect} from "react";
+import React, {useRef, useEffect, forwardRef, useImperativeHandle} from "react";
 import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
-import TodoForm from "./TodoForm";
 
 
-const ModalForm = ({createTodo}) => {
+const ModalForm = forwardRef(({children}, ref) => {
     const modalRef = useRef();
 
     useEffect(() => {
         modalRef.current = new Modal(document.getElementById('myModal'));
     },[]);
 
-    const openModal = () => {
-        modalRef.current.show();
-    };
-
-    const closeModal = () => {
-        modalRef.current.hide();
-    }
+    
+    useImperativeHandle(ref, () => ({
+        openModal: () => modalRef.current.show(),
+        closeModal: () => modalRef.current.hide(),
+    }))
 
     return (
         <div className="container">
-            <button className="btn btn-primary" onClick={openModal}>
+            <button className="btn btn-primary" onClick={() => modalRef.current?.show()}>
                 Add a ToDo
             </button>
 
@@ -39,7 +36,7 @@ const ModalForm = ({createTodo}) => {
                         </div>
                         <div className="modal-body">
 
-                    <TodoForm createTodo={createTodo} closeModal={closeModal}/>
+                    {children}
                             
                         </div>
                         <div className="modal-footer">
@@ -58,6 +55,6 @@ const ModalForm = ({createTodo}) => {
             </div>
         </div>
     )
-}
+})
 
 export default ModalForm;
