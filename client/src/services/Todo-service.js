@@ -5,7 +5,13 @@ const setToken = (newToken) => {
     token = `Bearer ${newToken}`
 }
 const getAll = async () => {
-    const response = await fetch(baseUrl);
+    const response = await fetch(baseUrl, {
+        method: 'GET',
+        headers:{
+            'Content-type': 'application/json',
+            'Authorization': token
+        }
+    });
     if(!response.ok) throw new Error("Unable to fetch the todos");
     const todos = await response.json();
     return todos;
