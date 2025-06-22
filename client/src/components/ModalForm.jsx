@@ -3,16 +3,16 @@ import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
 
 
 const ModalForm = forwardRef(({children}, ref) => {
-    const modalRef = useRef();
+    const modalInstance = useRef(null);
 
     useEffect(() => {
-        modalRef.current = new Modal(document.getElementById('myModal'));
+        modalInstance.current = new Modal(document.getElementById('myModal'));
     },[]);
 
     
     useImperativeHandle(ref, () => ({
-        openModal: () => modalRef.current.show(),
-        closeModal: () => modalRef.current.hide(),
+        openModal: () => modalInstance.current.show(),
+        closeModal: () => modalInstance.current.hide(),
     }))
 
     return (

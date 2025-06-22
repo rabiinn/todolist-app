@@ -11,8 +11,10 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [todoToEdit, setTodoToEdit] = useState(null);
 
   const  modalRef = useRef();
+  const editModalRef = useRef();
 
   useEffect(() => {
     const fetchTodos =  async ()  => {
@@ -87,6 +89,29 @@ const App = () => {
     }
   }
 
+  const updateTodo = async (updatedTodo) => {
+    try{
+        const returnedTodo = await todoservice.update(updatedTodo.id, updatedTodo);
+        console.log("Response from backend:", returnedTodo);
+        if(!returnedTodo){
+          console.log("failed to update")
+          return
+        }
+        setTodolist(todolist.map(todo => 
+          todo.id === returnedTodo.id ? returnedTodo : todo
+        ))
+
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
+  const handleEdit = (todo) => {
+    setTodoToEdit(todo);
+    editModalRef.current.openModal();
+  }
+
 
   return (
     <>
@@ -119,10 +144,19 @@ const App = () => {
               <TodoForm
                 createTodo={createTodo}
                 closeModal={() => modalRef.current?.closeModal()}
+                updateTodo={updateTodo}
+                existingTodo={todoToEdit}
               />
             </ModalForm>
-          
 
+            <ModalForm ref={editModalRef}>
+              <TodoForm
+              existingTodo={todoToEdit}
+              updateTodo={updateTodo}
+              createTodo={createTodo}
+              closeModal={() => editModalRef.current?.closeModal()}
+              />
+            </ModalForm>
           
                 <h2 className="mb-4 text-center">Todo List</h2>
                 <table className="table table-striped table-hover">
@@ -138,7 +172,7 @@ const App = () => {
                   </thead>
                   <tbody>
                     {todolist.map((todo) => (
-                      <Todo key={todo.id} todo={todo} deleteAtodo={deleteAtodo} />
+                      <Todo key={todo.id} todo={todo} deleteAtodo={deleteAtodo} edit={handleEdit} />
                     ))}
                   </tbody>
                 </table>
