@@ -16,11 +16,6 @@ const ModalForm = forwardRef(({children}, ref) => {
     }))
 
     return (
-        <div className="container">
-            <button className="btn btn-primary" onClick={() => modalRef.current?.show()}>
-                Add a ToDo
-            </button>
-
             <div className="modal fade" id="myModal" tabIndex="-1" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -53,7 +48,6 @@ const ModalForm = forwardRef(({children}, ref) => {
                 </div>
 
             </div>
-        </div>
     )
 })
 

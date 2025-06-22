@@ -78,55 +78,75 @@ const App = () => {
   }
 
  
-
   const deleteAtodo = async (id) => {
-  try{
-    await todoservice.deleteTodo(id);
-    setTodolist(todolist.filter(todo => todo.id !== id))
-  }
-  catch(error){
-    console.log(error);
-  }
-
+    try {
+      await todoservice.deleteTodo(id);
+      setTodolist(todolist.filter(todo => todo.id !== id));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 
   return (
     <>
-      {!user && <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword}/>
-        }
-      {user && 
-      (
+      {!user && (
+        <LoginForm
+          handleLogin={handleLogin}
+          setUsername={setUsername}
+          setPassword={setPassword}
+        />
+      )}
+      {user && (
         <>
-        <ModalForm ref={modalRef}>
-          <TodoForm createTodo={createTodo} closeModal={() => modalRef.current?.closeModal()}/>
-          </ModalForm>
-      <div className="container mt-5">
-        <div className="d-flex justify-content-end me-5">
-        <button onClick={handleLogout} className="btn btn-outline-danger">
-          Logout
-        </button>
-      </div>
-        <h2 className="mb-4 text-center">Todo List</h2>
-        <table className="table table-striped table-hover">
-          <thead className="table-dark">
-            <tr>
-              <th>Status</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Created At</th>
-              <th>Due Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {todolist.map(todo => (
-              <Todo key={todo.id} todo={todo} deleteAtodo={deleteAtodo} />
-            ))}
-          </tbody>
-        </table>
-      </div>
-      </>
+          <div className="container mt-5">
+
+            <div className="d-flex justify-content-end me-5">
+              <button onClick={handleLogout} className="btn btn-outline-danger">
+                Logout
+              </button>
+            </div>
+
+          <div className="row justify-content-center">
+            <div className="col-md-10 col-lg-8 text-center">
+            <button
+              className="btn btn-primary my-3"
+              onClick={() => modalRef.current.openModal()}
+            >
+              Add a ToDo
+            </button>
+            <ModalForm ref={modalRef}>
+              <TodoForm
+                createTodo={createTodo}
+                closeModal={() => modalRef.current?.closeModal()}
+              />
+            </ModalForm>
+          
+
+          
+                <h2 className="mb-4 text-center">Todo List</h2>
+                <table className="table table-striped table-hover">
+                  <thead className="table-dark">
+                    <tr>
+                      <th>Status</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Created At</th>
+                      <th>Due Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {todolist.map((todo) => (
+                      <Todo key={todo.id} todo={todo} deleteAtodo={deleteAtodo} />
+                    ))}
+                  </tbody>
+                </table>
+                </div>
+           </div>
+          </div>
+          
+        </>
       )}
     </>
   )
