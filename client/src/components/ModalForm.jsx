@@ -3,7 +3,7 @@ import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
 import TodoForm from "./TodoForm";
 
 
-const ModalForm = ({handleCreateAtodo, handleTitleChange, handleDescriptionChange}) => {
+const ModalForm = ({createTodo}) => {
     const modalRef = useRef();
 
     useEffect(() => {
@@ -13,6 +13,10 @@ const ModalForm = ({handleCreateAtodo, handleTitleChange, handleDescriptionChang
     const openModal = () => {
         modalRef.current.show();
     };
+
+    const closeModal = () => {
+        modalRef.current.hide();
+    }
 
     return (
         <div className="container">
@@ -35,7 +39,7 @@ const ModalForm = ({handleCreateAtodo, handleTitleChange, handleDescriptionChang
                         </div>
                         <div className="modal-body">
 
-                    <TodoForm handleCreateAtodo={handleCreateAtodo} handleTitleChange={handleTitleChange} handleDescriptionChange={handleDescriptionChange}/>
+                    <TodoForm createTodo={createTodo} closeModal={closeModal}/>
                             
                         </div>
                         <div className="modal-footer">

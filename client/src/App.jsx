@@ -60,30 +60,23 @@ const App = () => {
     setPassword('');
   }
 
-  const handleCreateAtodo = async (event) => {
-    event.preventDefault();
-    try {
-        const newTodo = {
-          title: newTitle,
-          description:newDescription
-        }
-        const returnedTodo = await todoservice.create(newTodo);
-        setTodolist(todolist.concat(returnedTodo));
-        setNewTitle('');
-        setNewDescription('');
+
+  const createTodo = async ({title, description}) => {
+    try{
+      const newTodo = {
+        title,
+        description
+      }
+    const returnedTodo = await todoservice.create(newTodo);
+    setTodolist(todolist.concat(returnedTodo))
     }
+  
     catch(error){
-      console.log(error);
+      console.log(error)
     }
-
   }
 
-  const handleTitleChange = async (event) =>{
-    setNewTitle(event.target.value);
-  }
-  const handleDescriptionChange = async (event) => {
-    setNewDescription(event.target.value);
-  }
+ 
 
   const deleteAtodo = async (id) => {
   try{
@@ -104,7 +97,7 @@ const App = () => {
       {user && 
       (
         <>
-        <ModalForm handleCreateAtodo={handleCreateAtodo} handleTitleChange={handleTitleChange} handleDescriptionChange={handleDescriptionChange}/>
+        <ModalForm createTodo={createTodo}/>
       <div className="container mt-5">
         <div className="d-flex justify-content-end me-5">
         <button onClick={handleLogout} className="btn btn-outline-danger">

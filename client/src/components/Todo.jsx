@@ -1,5 +1,4 @@
 const Todo = ({todo, deleteAtodo}) => {
-    
     return(
         <tr>
             <td>{todo.status}</td>

@@ -1,6 +1,5 @@
 const baseUrl = 'http://localhost:3001/api/login';
 
-
 const createlogin = async (credentials) => {
     const response = await fetch(baseUrl, {
         method: 'POST',
